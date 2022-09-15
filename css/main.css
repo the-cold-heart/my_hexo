@@ -2528,7 +2528,7 @@ mark.search-keyword {
 }
 .header-inner {
   background: var(--content-bg-color);
-  border-radius: initial;
+  border-radius: 20px 20px 20px 20px;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
   width: 240px;
 }
@@ -2562,7 +2562,7 @@ mark.search-keyword {
   }
 }
 .main-inner {
-  border-radius: initial;
+  border-radius: 20px 20px 20px 20px;
   box-sizing: border-box;
   width: calc(100% - 252px);
 }
@@ -2704,7 +2704,7 @@ mark.search-keyword {
 }
 .sidebar-inner {
   background: var(--content-bg-color);
-  border-radius: initial;
+  border-radius: 20px;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12), 0 -1px 0.5px 0 rgba(0,0,0,0.09);
   box-sizing: border-box;
   color: var(--text-color);
@@ -2759,7 +2759,7 @@ mark.search-keyword {
 .main-inner > .comments,
 .main-inner > .pagination {
   background: var(--content-bg-color);
-  border-radius: initial;
+  border-radius: 20px 20px 20px 20px;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
 }
 .main-inner > .sub-menu:not(:first-child):not(.sub-menu),
@@ -2767,7 +2767,7 @@ mark.search-keyword {
 .main-inner > .tabs-comment:not(:first-child):not(.sub-menu),
 .main-inner > .comments:not(:first-child):not(.sub-menu),
 .main-inner > .pagination:not(:first-child):not(.sub-menu) {
-  border-radius: initial;
+  border-radius: 20px;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12), 0 -1px 0.5px 0 rgba(0,0,0,0.09);
   margin-top: 12px;
 }
@@ -2834,4 +2834,72 @@ mark.search-keyword {
   .comments {
     padding: 10px 12px;
   }
+}
+body {
+  background: url("https://c2.im5i.com/2022/09/15/HwkGZ.webp");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  color: #000;
+}
+.post-block {
+  background: rgba(255,255,255,0.86) none repeat scroll !important;
+}
+.pagination {
+  background: rgba(255,255,255,0.86);
+}
+.header-inner {
+  background: rgba(255,255,255,0.86);
+}
+.sidebar-inner {
+  background: rgba(255,255,255,0.86) none repeat scroll !important;
+}
+.popup {
+  opacity: 1;
+}
+.comments {
+  background: rgba(255,255,255,0.86) none repeat scroll !important;
+}
+.headband {
+  background: #0080ff;
+}
+.site-brand-container {
+  background: #0080ff;
+}
+.post-body p a {
+  color: #0080ff;
+  border-bottom: none;
+  border-bottom: 1px solid #0080ff;
+}
+.post-body p a:hover {
+  color: #fc6423;
+  border-bottom: none;
+  border-bottom: 1px solid #fc6423;
+}
+/* webkit, opera, IE9 */
+::selection {
+  background: #0080ff;
+  color: #f7f7f7;
+}
+/* firefox */
+::-moz-selection {
+  background: #0080ff;
+  color: #f7f7f7;
+}
+.btn {
+  color: #0080ff;
+  background: #fff;
+  border: 2px solid #0080ff;
+}
+.btn:hover {
+  border-color: #0080ff;
+  color: #fff;
+  background: #0080ff;
+}
+.posts-expand .post-title-link {
+  color: #000;
+}
+.posts-expand .post-meta-container {
+  color: #000;
 }
