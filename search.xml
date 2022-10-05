@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CentOS 7 安装 Python 3.8</title>
+    <url>/17ace8da.html</url>
+    <content><![CDATA[<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>随着 CentOS 7 自带的 Python 2 越来越不够用了，我们需要升级到 Python 3 ，但是 yum 却依赖于自带的 Python 2 ，我们又不能将自带的 Python 2 卸载掉，而我又想要默认使用 Python 3 ，所以就想到了这个办法，让 Python 2 和 Python 3 共存，且默认使用 Python 3 ，又不影响 yum 的使用<br>本文章使用CentOS 7.6为例</p>
+<span id="more"></span>
+<h3 id="一、下载-Python-3-8-源代码压缩包"><a href="#一、下载-Python-3-8-源代码压缩包" class="headerlink" title="一、下载 Python 3.8 源代码压缩包"></a>一、下载 Python 3.8 源代码压缩包</h3><p>截止至本文章完成时，使用<code>yum</code>安装的 Python 3 的版本依然是 3.6 ，所以我们要安装 Python 3.8 的话就需要下载源代码自己编译了<br>使用  </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz</span><br></pre></td></tr></table></figure>
+<p>命令就可以下载到 Python 3.8 的源代码压缩包啦<br>时间可能比较久，需要耐心等待一下呢，下载结果的话就是像下面这样子啦：<br><img src="https://c2.im5i.com/2022/09/12/521FL.png" alt="下载结果"></p>
+<h3 id="二、将压缩包解压"><a href="#二、将压缩包解压" class="headerlink" title="二、将压缩包解压"></a>二、将压缩包解压</h3><p>使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tar zxf Python-3.8.0.tgz</span><br></pre></td></tr></table></figure>
+<p>命令将刚刚下载好的压缩包解压<br>解压结果就像下面这个样子啦：<br><img src="https://c2.im5i.com/2022/09/12/52Fyt.png" alt="解压结果"><br>解压后我们先使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd Python-3.8.0</span><br></pre></td></tr></table></figure>
+<p>命令进入刚刚解压出来的目录</p>
+<h3 id="三、安装前的准备工作"><a href="#三、安装前的准备工作" class="headerlink" title="三、安装前的准备工作"></a>三、安装前的准备工作</h3><p>在安装之前需要先编译源代码，而编译 Python 的源代码需要依赖于很多工具，所以我们要先准备一下<br>依次执行以下三条命令就可以啦（然而这将是一个漫长的过程）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum update -y</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum groupinstall -y &#x27;Development Tools&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install -y gcc openssl-devel bzip2-devel libffi-devel</span><br></pre></td></tr></table></figure>
+<h3 id="四、编译与安装"><a href="#四、编译与安装" class="headerlink" title="四、编译与安装"></a>四、编译与安装</h3><p>执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">./configure</span><br></pre></td></tr></table></figure>
+<p>命令来进行编译（一定要在之前解压出来的 Python-3.8.0 目录下执行这条命令呀）<br>编译完成后，执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>命令就可以开始安装啦（然而这将又会是一个漫长的过程……）</p>
+<h3 id="五、修改默认-Python-版本为-Python-3-8"><a href="#五、修改默认-Python-版本为-Python-3-8" class="headerlink" title="五、修改默认 Python 版本为 Python 3.8"></a>五、修改默认 Python 版本为 Python 3.8</h3><p>虽然我们已经成功安装了 Python 3.8 ，但是系统默认使用的依然是 Python 2 ，所以我们还要设置一下默认使用的 Python 版本<br>进入<code>/usr/bin</code>目录，使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ls -la python*</span><br></pre></td></tr></table></figure>
+<p>命令来查看 Python 相关的信息<br><img src="https://c2.im5i.com/2022/09/12/52iWs.png" alt="Python 相关信息"><br>我们发现，当我们使用<code>python</code>这条命令时，系统先是指向了<code>python2</code>，然后<code>python2</code>又指向了<code>python2.7</code><br>我们先用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv python python2.bak</span><br></pre></td></tr></table></figure>
+<p>命令将原来的<code>python</code>重命名为<code>python2.bak</code><br>然后使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ln -s /usr/local/bin/python3.8 /usr/bin/python</span><br></pre></td></tr></table></figure>
+<p>命令新建一个名为<code>python</code>的软链接，并配置其指向<code>python3.8</code><br>就像这样：<br><img src="https://c2.im5i.com/2022/09/12/52m0Q.png" alt="python 软链接"><br>最后使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ln -s /usr/local/bin/pip3.8 /usr/bin/pip</span><br></pre></td></tr></table></figure>
+<p>命令新建一个名为<code>pip</code>的软链接，并配置其指向<code>pip3.8</code><br>就像这样：<br><img src="https://c2.im5i.com/2022/09/12/528N3.png" alt="pip 软链接"><br>现在我们默认使用的就是 Python 3.8 啦</p>
+<h3 id="六、修改-yum-配置文件"><a href="#六、修改-yum-配置文件" class="headerlink" title="六、修改 yum 配置文件"></a>六、修改 yum 配置文件</h3><p>由于我们将默认的 Python 版本修改成了 Python 3.8 ，所以<code>yum</code>不工作了，我们需要修改一下<code>yum</code>的配置文件，让其重新工作起来<br>首先进入<code>/usr/bin</code>目录<br>使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ls -la yum*</span><br></pre></td></tr></table></figure>
+<p>来查看 yum 相关的信息<br><img src="https://c2.im5i.com/2022/09/12/52Aty.png" alt="yum 相关信息"><br>编辑显示出来的所有文件，将这些文件开头的<code>#!/usr/bin/python</code>全部修改为<code>#!/usr/bin/python2</code><br>修改完成后，将<code>/usr/libexec/urlgrabber-ext-down</code>文件也做同上面一样的修改<br>以上文件全部修改完成之后，<code>yum</code>就重新开始工作啦</p>
+<h3 id="七、结果"><a href="#七、结果" class="headerlink" title="七、结果"></a>七、结果</h3><p>执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python -V</span><br></pre></td></tr></table></figure>
+<p>和</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip -V</span><br></pre></td></tr></table></figure>
+<p>命令，结果就像这样：<br><img src="https://c2.im5i.com/2022/09/12/52LmO.png" alt="结果"><br>恭喜，你已经成功安装了 Python 3.8 啦！</p>
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>CentOS</tag>
+        <tag>Python</tag>
+        <tag>安装</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用linux搭建我的世界服务器</title>
     <url>/ee0108f8.html</url>
     <content><![CDATA[<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>本文章使用CentOS 7.6系统为例，且默认已安装Java，机器拥有公网IP（如果机器没有公网IP请使用内网穿透）</p>
@@ -48,56 +98,6 @@
         <tag>Minecraft</tag>
         <tag>MC</tag>
         <tag>我的世界服务器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CentOS 7 安装 Python 3.8</title>
-    <url>/17ace8da.html</url>
-    <content><![CDATA[<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>随着 CentOS 7 自带的 Python 2 越来越不够用了，我们需要升级到 Python 3 ，但是 yum 却依赖于自带的 Python 2 ，我们又不能将自带的 Python 2 卸载掉，而我又想要默认使用 Python 3 ，所以就想到了这个办法，让 Python 2 和 Python 3 共存，且默认使用 Python 3 ，又不影响 yum 的使用<br>本文章使用CentOS 7.6为例</p>
-<span id="more"></span>
-<h3 id="一、下载-Python-3-8-源代码压缩包"><a href="#一、下载-Python-3-8-源代码压缩包" class="headerlink" title="一、下载 Python 3.8 源代码压缩包"></a>一、下载 Python 3.8 源代码压缩包</h3><p>截止至本文章完成时，使用<code>yum</code>安装的 Python 3 的版本依然是 3.6 ，所以我们要安装 Python 3.8 的话就需要下载源代码自己编译了<br>使用  </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz</span><br></pre></td></tr></table></figure>
-<p>命令就可以下载到 Python 3.8 的源代码压缩包啦<br>时间可能比较久，需要耐心等待一下呢，下载结果的话就是像下面这样子啦：<br><img src="https://c2.im5i.com/2022/09/12/521FL.png" alt="下载结果"></p>
-<h3 id="二、将压缩包解压"><a href="#二、将压缩包解压" class="headerlink" title="二、将压缩包解压"></a>二、将压缩包解压</h3><p>使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tar zxf Python-3.8.0.tgz</span><br></pre></td></tr></table></figure>
-<p>命令将刚刚下载好的压缩包解压<br>解压结果就像下面这个样子啦：<br><img src="https://c2.im5i.com/2022/09/12/52Fyt.png" alt="解压结果"><br>解压后我们先使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd Python-3.8.0</span><br></pre></td></tr></table></figure>
-<p>命令进入刚刚解压出来的目录</p>
-<h3 id="三、安装前的准备工作"><a href="#三、安装前的准备工作" class="headerlink" title="三、安装前的准备工作"></a>三、安装前的准备工作</h3><p>在安装之前需要先编译源代码，而编译 Python 的源代码需要依赖于很多工具，所以我们要先准备一下<br>依次执行以下三条命令就可以啦（然而这将是一个漫长的过程）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum update -y</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum groupinstall -y &#x27;Development Tools&#x27;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install -y gcc openssl-devel bzip2-devel libffi-devel</span><br></pre></td></tr></table></figure>
-<h3 id="四、编译与安装"><a href="#四、编译与安装" class="headerlink" title="四、编译与安装"></a>四、编译与安装</h3><p>执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">./configure</span><br></pre></td></tr></table></figure>
-<p>命令来进行编译（一定要在之前解压出来的 Python-3.8.0 目录下执行这条命令呀）<br>编译完成后，执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-<p>命令就可以开始安装啦（然而这将又会是一个漫长的过程……）</p>
-<h3 id="五、修改默认-Python-版本为-Python-3-8"><a href="#五、修改默认-Python-版本为-Python-3-8" class="headerlink" title="五、修改默认 Python 版本为 Python 3.8"></a>五、修改默认 Python 版本为 Python 3.8</h3><p>虽然我们已经成功安装了 Python 3.8 ，但是系统默认使用的依然是 Python 2 ，所以我们还要设置一下默认使用的 Python 版本<br>进入<code>/usr/bin</code>目录，使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ls -la python*</span><br></pre></td></tr></table></figure>
-<p>命令来查看 Python 相关的信息<br><img src="https://c2.im5i.com/2022/09/12/52iWs.png" alt="Python 相关信息"><br>我们发现，当我们使用<code>python</code>这条命令时，系统先是指向了<code>python2</code>，然后<code>python2</code>又指向了<code>python2.7</code><br>我们先用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv python python2.bak</span><br></pre></td></tr></table></figure>
-<p>命令将原来的<code>python</code>重命名为<code>python2.bak</code><br>然后使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ln -s /usr/local/bin/python3.8 /usr/bin/python</span><br></pre></td></tr></table></figure>
-<p>命令新建一个名为<code>python</code>的软链接，并配置其指向<code>python3.8</code><br>就像这样：<br><img src="https://c2.im5i.com/2022/09/12/52m0Q.png" alt="python 软链接"><br>最后使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ln -s /usr/local/bin/pip3.8 /usr/bin/pip</span><br></pre></td></tr></table></figure>
-<p>命令新建一个名为<code>pip</code>的软链接，并配置其指向<code>pip3.8</code><br>就像这样：<br><img src="https://c2.im5i.com/2022/09/12/528N3.png" alt="pip 软链接"><br>现在我们默认使用的就是 Python 3.8 啦</p>
-<h3 id="六、修改-yum-配置文件"><a href="#六、修改-yum-配置文件" class="headerlink" title="六、修改 yum 配置文件"></a>六、修改 yum 配置文件</h3><p>由于我们将默认的 Python 版本修改成了 Python 3.8 ，所以<code>yum</code>不工作了，我们需要修改一下<code>yum</code>的配置文件，让其重新工作起来<br>首先进入<code>/usr/bin</code>目录<br>使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ls -la yum*</span><br></pre></td></tr></table></figure>
-<p>来查看 yum 相关的信息<br><img src="https://c2.im5i.com/2022/09/12/52Aty.png" alt="yum 相关信息"><br>编辑显示出来的所有文件，将这些文件开头的<code>#!/usr/bin/python</code>全部修改为<code>#!/usr/bin/python2</code><br>修改完成后，将<code>/usr/libexec/urlgrabber-ext-down</code>文件也做同上面一样的修改<br>以上文件全部修改完成之后，<code>yum</code>就重新开始工作啦</p>
-<h3 id="七、结果"><a href="#七、结果" class="headerlink" title="七、结果"></a>七、结果</h3><p>执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python -V</span><br></pre></td></tr></table></figure>
-<p>和</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip -V</span><br></pre></td></tr></table></figure>
-<p>命令，结果就像这样：<br><img src="https://c2.im5i.com/2022/09/12/52LmO.png" alt="结果"><br>恭喜，你已经成功安装了 Python 3.8 啦！</p>
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>CentOS</tag>
-        <tag>Python</tag>
-        <tag>安装</tag>
       </tags>
   </entry>
   <entry>
